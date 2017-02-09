@@ -1,5 +1,6 @@
-# netAnkiChromeExtension
-This is chrome extension for easy adding words to http://netanki-maximtorba.rhcloud.com/
+# vkMusicController 
+This chrome extension gives full control on your vk.com's music player.
+<img scr="/images/Screenshot_1.png" width="400px">
 
 For installing it you need clone or download this repository and then:
 
