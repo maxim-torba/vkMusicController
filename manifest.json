@@ -1,0 +1,50 @@
+{
+  "manifest_version": 2,
+  "name": "vkMusicController",
+  "version": "1.0",
+  "description": "You can control vk music player and set global hot-keys for its actions",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "browser_action": {
+    "default_icon": "images/icon38.png",
+    "default_popup": "popup.html"
+  },
+  "author": "Maxim Torba",
+  "background": {
+    "persistent": true,
+    "scripts": [
+      "scripts/background.js"
+    ]
+  },
+  "commands": {
+    "play-pause": {
+      "description": "play-pause",
+      "global": true,
+      "suggested_key": {
+        "default": "Alt+X"
+      }
+    },
+    "next": {
+      "description": "next song",
+      "global": true,
+      "suggested_key": {
+        "default": "Alt+C"
+      }
+    },
+    "previous": {
+      "description": "previous song",
+      "global": true,
+      "suggested_key": {
+        "default": "Alt+Z"
+      }
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "https://vk.com/*"
+  ]
+}

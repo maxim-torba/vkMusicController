@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="popup.css" type="text/css"/>
+</head>
+<body>
+<div id="buttonsWrapper">
+    <button id="previous" class="command prev">
+        <div class="btn-icon prev"></div>
+    </button>
+    <button id="play-pause" class="command play">
+        <div class="btn-icon play"></div>
+    </button>
+    <button id="next" class="command next">
+        <div class="btn-icon next"></div>
+    </button>
+    <div id="audioPlayer">
+        <div id="track_info">
+            <span class="audioPlayer_performer"></span>
+            <span class="audioPlayer_divider"> – </span>
+            <span class="audioPlayer_title"></span>
+            <span class="audioPlayer_duration"></span>
+        </div>
+        <div id="progressWrapper">
+            <div class="slider_wrapper">
+                <div class="slider_slide"></div>
+                <div class="slider_hint"></div>
+                <div class="slider_handler"></div>
+            </div>
+        </div>
+        <div id="volumeWrapper">
+            <div class="slider_wrapper">
+                <div class="slider_slide"></div>
+                <div class="slider_hint"></div>
+                <div class="slider_handler"></div>
+            </div>
+        </div>
+    </div>
+    <button id="showVkPage">
+        <div class="btn-icon showPage"></div>
+        <!--<span class="showPage label">playing page</span>-->
+    </button>
+</div>
+<div id="playlist"></div>
+<script src="scripts/zenscroll.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

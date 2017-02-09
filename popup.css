@@ -1,0 +1,318 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("fonts/Roboto-Regular.woff2") format("woff2");
+    font-weight: 400
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("fonts/Roboto-Medium.woff2") format("woff2");
+    font-weight: 500
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    background-color: #666;
+    -webkit-border-radius: 4px
+}
+
+body {
+    width: 450px;
+    height: auto;
+    margin: 0 !important;
+    font-size: 13px;
+    font-family: Roboto, sans-serif;
+    line-height: 1.154;
+    font-weight: 400;
+}
+
+#noAudio {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 400;
+    -webkit-font-smoothing: subpixel-antialiased;
+    margin: -1px 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#buttonsWrapper {
+    width: 100%;
+    background: #507299;
+    height: 42px;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+
+button {
+    float: left;
+    padding: 16px 4px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    box-sizing: content-box;
+    width: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+button:focus {
+    outline-width: 0;
+}
+
+.btn-icon {
+    width: 14px;
+    height: 14px;
+    background-image: url(images/head_icons.png);
+    opacity: 0.65;
+    transition: opacity 100ms linear;
+}
+
+button:hover .btn-icon {
+    opacity: 1;
+}
+
+#play-pause {
+    padding: 14px 4px 12px;
+}
+
+.btn-icon.play {
+    background-position: 0 -78px;
+}
+
+.playing .btn-icon.play {
+    background-position: -17px -78px;
+}
+
+#next {
+    margin-right: 7px;
+}
+
+.btn-icon.next {
+    background-position: -48px -80px;
+}
+
+#previous {
+    padding-left: 10px;
+}
+
+.btn-icon.prev {
+    background-position: -32px -80px;
+}
+
+#showVkPage {
+    width: 40px;
+    height: 40px;
+    padding: 0 10px;
+    transition: background 100ms linear;
+    float: right;
+}
+
+#showVkPage:hover {
+    background: #486991;
+}
+
+#showVkPage:hover .label {
+    color: #fff;
+}
+
+#showVkPage:hover .btn-icon {
+    opacity: 1;
+}
+
+.btn-icon.showPage {
+    background: url(/images/head_icons.png) no-repeat 0 -98px;
+    height: 20px;
+    width: 33px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+.showPage.label {
+    font-family: "Roboto", sans-serif;
+    font-size: 17px;
+    vertical-align: super;
+    font-weight: 400;
+    color: #c1cddb;
+    transition: color 60ms linear;
+}
+
+#audioPlayer {
+    float: left;
+    width: 60%;
+}
+
+#track_info {
+    font-size: 13px;
+    line-height: 14px;
+    height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #d7e2ec;
+    padding-top: 10px;
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.audioPlayer_performer, .audioPlayer_divider, .audioPlayer_title {
+    float: left;
+    overflow: hidden;
+    max-width: 40%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+.audioPlayer_divider, .audioPlayer_title {
+    padding-left: 1px;
+}
+
+.audioPlayer_performer {
+    font-weight: 500;
+}
+
+.audioPlayer_duration {
+    float: right;
+    letter-spacing: 0.02em;
+}
+
+#progressWrapper, #volumeWrapper {
+    width: 80%;
+    height: 12px;
+    float: left;
+    border-radius: 2px;
+    margin: -2px 0;
+    cursor: pointer;
+    user-select: none;
+    padding-top: 6px;
+}
+
+.slider_wrapper {
+    width: 100%;
+    height: 2px;
+    background: #9ba7b3;
+}
+
+#volumeWrapper {
+    width: 15%;
+    float: right;
+}
+
+.slider_slide {
+    width: 0;
+    height: 2px;
+    border-radius: 2px;
+    background-color: #e1e8ee;
+    transition: width 80ms linear;
+}
+
+.slider_handler {
+    background-color: #e1e8ee;
+    position: relative;
+    opacity: 0;
+    border-radius: 50%;
+    height: 0;
+    width: 0;
+    top: -5px;
+    margin-left: -3px;
+    transition: width 80ms linear, height 80ms linear, opacity 160ms linear, left 80ms linear;
+}
+
+#progressWrapper:hover .slider_handler, #volumeWrapper:hover .slider_handler {
+    height: 8px;
+    width: 8px;
+    opacity: 1;
+}
+
+#playlist {
+    overflow-x: hidden;
+    height: auto;
+    max-height: 300px;
+    width: 100%;
+    font-size: 13px;
+}
+
+#playlist ul {
+    padding: 0;
+    margin: 0;
+    overflow: scroll;
+}
+
+#playlist li {
+    cursor: pointer;
+    line-height: 13px;
+    height: auto;
+    padding: 7px;
+    position: relative;
+    border-radius: 3px;
+    transition: background 60ms linear;
+    float: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#playlist li:hover {
+    background: #f0f2f5;
+}
+
+.current {
+    background: #ebebeb;
+}
+
+.audio_performer, .audio_title, .audio_duration, .audio_divider {
+    height: 1.25em;
+    -webkit-font-smoothing: subpixel-antialiased;
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    padding-left: 10px;
+    margin-top: 3px;
+}
+
+.audio_performer, .audio_title, .audio_divider {
+    float: left;
+}
+
+.audio_performer {
+    color: #2a5885;
+    font-weight: 500;
+}
+
+.audio_duration {
+    float: right;
+    font-size: 12px;
+    color: #939393;
+    line-height: 13px;
+}
+
+.audio_divider {
+    padding: 0 5px;
+}
+
+.audio_title {
+    padding: 0;
+}
+
+.current.playing .audio_play {
+    background-position: 8px -15px;
+}
+
+.audio_play {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #577ca1 url(/images/audio_playpause.png) no-repeat 8px 7px;
+    outline: none;
+    border: none;
+    display: block;
+    cursor: pointer;
+    float: left;
+    padding: 0;
+    margin-top: -2px;
+}
