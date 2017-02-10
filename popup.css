@@ -45,6 +45,7 @@ body {
     height: 42px;
     box-sizing: border-box;
     padding-left: 10px;
+    user-select: none;
 }
 
 button {
@@ -207,6 +208,7 @@ button:hover .btn-icon {
     border-radius: 2px;
     background-color: #e1e8ee;
     transition: width 80ms linear;
+    user-select: none;
 }
 
 .slider_handler {

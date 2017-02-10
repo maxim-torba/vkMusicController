@@ -31,7 +31,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             current: currentSong,
             isPlaying: isPlaying,
             volume: localStorage.getItem('audio_v20_vol')
-            // progress: localStorage.getItem('audio_v20_progress')
         });
     }
 });

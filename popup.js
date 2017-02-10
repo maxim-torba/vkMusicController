@@ -45,7 +45,6 @@ function executeContentScript() {
     chrome.tabs.executeScript(tabId, {file: 'scripts/content.script.js'}, updateInfo);
 }
 
-
 function updateInfo() {
     chrome.tabs.sendMessage(tabId, {method: "getAudioPlayer"}, (response) => {
         try {
@@ -53,11 +52,13 @@ function updateInfo() {
             current = JSON.parse(response.current);
             isPlaying = JSON.parse(response.isPlaying);
             let volume = response.volume;
-            // let progress = response.progress;
+            
             if (command)
                 updatePlaylistDom();
-            else
+            else {
                 playlistEl.appendChild(createPlaylistDOM());
+                canSetProgress = true;
+            }
             
             if (!command || command == 'next' || command == 'previous') {
                 let myScroller = zenscroll.createScroller(playlistEl, 1500);
@@ -122,7 +123,9 @@ function setEventListeners() {
         if (e.which == 1) {
             progressWrapper.onmousedown(e);
             if (e.clientX == progressWrapper.offsetLeft ||
-                (e.clientX - progressWrapper.offsetLeft) == progressWrapper.offsetWidth) {
+                (e.clientX - progressWrapper.offsetLeft) == progressWrapper.offsetWidth ||
+                e.clientY == progressWrapper.offsetTop ||
+                (e.clientY - progressWrapper.offsetTop) == progressWrapper.offsetHeight - 1) {
                 progressWrapper.onmouseup(e);
             }
         }
@@ -143,7 +146,9 @@ function setEventListeners() {
         if (e.which == 1) {
             volumeWrapper.onmousedown(e);
             if (e.clientX == volumeWrapper.offsetLeft ||
-                (e.clientX - volumeWrapper.offsetLeft) == volumeWrapper.offsetWidth) {
+                (e.clientX - volumeWrapper.offsetLeft) == volumeWrapper.offsetWidth - 1 ||
+                e.clientY == volumeWrapper.offsetTop ||
+                (e.clientY - volumeWrapper.offsetTop) == volumeWrapper.offsetHeight - 1) {
                 volumeWrapper.onmouseup(e);
             }
         }
