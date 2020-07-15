@@ -5,16 +5,17 @@
   "description": "You can control vk music player and set global hot-keys for its actions",
   "icons": {
     "16": "images/icon16.png",
+    "38": "images/icon38.png",
     "48": "images/icon48.png",
-    "128": "images/icon128.png"
+    "128": "images/icon100.png"
   },
   "browser_action": {
-    "default_icon": "images/icon38.png",
+    "default_icon": "images/icon100.png",
     "default_popup": "popup.html"
   },
   "author": "Maxim Torba",
   "background": {
-    "persistent": true,
+    "persistent": false,
     "scripts": [
       "scripts/background.js"
     ]
@@ -43,8 +44,8 @@
     }
   },
   "permissions": [
-    "activeTab",
     "tabs",
+    "activeTab",
     "https://vk.com/*"
   ]
 }

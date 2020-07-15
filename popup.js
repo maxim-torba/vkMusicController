@@ -16,12 +16,11 @@ function getTabId() {
     chrome.tabs.query({'audible': true, 'url': 'https://vk.com/*'}, (tabs) => {
         try {
             tabId = tabs[0].id;
-        }
-        catch (err) {
-            console.error(err);
+        } catch (err) {
+            // console.error(err);
             tabId = backgroundPage.tabId;
         }
-        
+
         if (tabId) {
             if (tabId != backgroundPage.tabId) {
                 backgroundPage.tabId = tabId;
@@ -36,6 +35,7 @@ function getTabId() {
         }
     });
 }
+
 window.onload = function () {
     getTabId();
     setEventListeners();
@@ -52,22 +52,22 @@ function updateInfo() {
             current = JSON.parse(response.current);
             isPlaying = JSON.parse(response.isPlaying);
             let volume = response.volume;
-            
+
             if (command)
                 updatePlaylistDom();
             else {
                 playlistEl.appendChild(createPlaylistDOM());
                 canSetProgress = true;
             }
-            
+
             if (!command || command == 'next' || command == 'previous') {
-                let myScroller = zenscroll.createScroller(playlistEl, 1500);
+                let myScroller = zenscroll.createScroller(playlistEl, 500);//1500
                 myScroller.center(document.getElementsByClassName('current')[0]);
             }
-            
+
             if (command == 'newProgress')
                 canSetProgress = true;
-            
+
             setPlayerInfo();
             setVolume(volume);
             setPlayPauseBtn(isPlaying);
@@ -106,19 +106,22 @@ function setEventListeners() {
             })
         });
     };
-    
+
     for (let i = 0; i < commandBtns.length; i++) {
         commandBtns[i].onclick = function () {
+            /*  if (!tabId) {
+                  return;
+              }*/
             backgroundPage.commandListener(commandBtns[i].id, tabId);
         }
     }
-    
+
     progressWrapper.onmousedown = function (e) {
         let newProgress = (e.clientX - progressWrapper.offsetLeft) / progressWrapper.offsetWidth;
         canSetProgress = false;
         setProgress(newProgress);
     };
-    
+
     progressWrapper.onmousemove = function (e) {
         if (e.which == 1) {
             progressWrapper.onmousedown(e);
@@ -130,18 +133,21 @@ function setEventListeners() {
             }
         }
     };
-    
+
     progressWrapper.onmouseup = function (e) {
+        /*     if (!tabId) {
+                 return;
+             }*/
         let newProgress = (e.clientX - progressWrapper.offsetLeft) / progressWrapper.offsetWidth;
         backgroundPage.commandListener('newProgress', tabId, {progress: newProgress});
     };
-    
-    
+
+
     volumeWrapper.onmousedown = function (e) {
         let newVolume = (e.clientX - volumeWrapper.offsetLeft) / volumeWrapper.offsetWidth;
         setVolume(newVolume);
     };
-    
+
     volumeWrapper.onmousemove = function (e) {
         if (e.which == 1) {
             volumeWrapper.onmousedown(e);
@@ -153,8 +159,11 @@ function setEventListeners() {
             }
         }
     };
-    
+
     volumeWrapper.onmouseup = function (e) {
+        /*      if (!tabId) {
+                  return;
+              }*/
         volumeWrapper.onmousedown(e);
         let newVolume = (e.clientX - volumeWrapper.offsetLeft) / volumeWrapper.offsetWidth;
         backgroundPage.commandListener('newVolume', tabId, {volume: newVolume});
@@ -165,7 +174,7 @@ function setProgress(progress) {
     let progressSlider = progressWrapper.getElementsByClassName('slider_slide')[0];
     let sliderProgressPoint = progressWrapper.getElementsByClassName('slider_handler')[0];
     let progressInPercent = Math.floor(progress * 100);
-    
+
     progressSlider.style.width = sliderProgressPoint.style.left =
         (progressInPercent > 0 ? (progressInPercent < 100 ? progressInPercent : 100) : 0) + '%';
 }
@@ -174,7 +183,7 @@ function setVolume(volume) {
     let volumeSlider = volumeWrapper.getElementsByClassName('slider_slide')[0];
     let sliderVolumePoint = volumeWrapper.getElementsByClassName('slider_handler')[0];
     let volumeInPercent = Math.floor(volume * 100);
-    
+
     volumeSlider.style.width = sliderVolumePoint.style.left =
         (volumeInPercent > 0 ? (volumeInPercent < 100 ? volumeInPercent : 100) : 0) + '%';
 }
@@ -184,11 +193,20 @@ function setPlayPauseBtn(isPlaying) {
     if (isPlaying) {
         commandBtns['play-pause'].classList.add('playing');
         currentEl.classList.add('playing');
-    }
-    else {
+        setPlayIcon();
+    } else {
         commandBtns['play-pause'].classList.remove('playing');
         currentEl.classList.remove('playing');
+        setPauseIcon();
     }
+}
+
+function setPauseIcon() {
+    chrome.browserAction.setIcon({path: "/images/pause.png"}, (e) => console.log(e))
+}
+
+function setPlayIcon() {
+    chrome.browserAction.setIcon({path: "/images/play.png"}, (e) => console.log(e))
 }
 
 function updatePlaylistDom() {
@@ -197,10 +215,10 @@ function updatePlaylistDom() {
         let el = lis[i];
         if (el.classList.contains('current'))
             el.classList.remove('current');
-        
+
         if (el.classList.contains('playing'))
             el.classList.remove('playing');
-        
+
         if (el.dataset.songId == current[13])
             el.classList.add('current');
     }
@@ -209,7 +227,7 @@ function updatePlaylistDom() {
 function createPlaylistDOM() {
     let ul = document.createElement('ul');
     ul.id = "list";
-    
+
     playlistEl.onscroll = function (e) {
         if ((e.srcElement.scrollTop + e.srcElement.offsetHeight) == e.srcElement.scrollHeight) {
             addLiItems(ul);
@@ -230,12 +248,12 @@ function addLiItems(ul) {
             backgroundPage.commandListener(el[13] == current[13] ? 'play-pause' : 'new',
                 tabId, {song: el});
         };
-        
+
         if (el[13] == current[13])
             li.classList = 'current';
-        
+
         li.dataset.songId = el[13];
-        
+
         li.innerHTML = '<button class="audio_play"></button>' +
             '<span class="audio_performer">' + el[4] + '</span>' +
             '<span class="audio_divider"> – </span>' +
@@ -264,4 +282,3 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
     }
 });
-

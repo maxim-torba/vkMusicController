@@ -25,7 +25,7 @@ window.commandListener = function commandListener(executingCommand, id, options)
     chrome.tabs.query({'audible': true, 'url': 'https://vk.com/*'}, function (tabs) {
         let code = '';
         let curId = 0;
-        
+
         switch (executingCommand) {
             case 'play-pause':
                 code = cPlayPause;
@@ -47,7 +47,7 @@ window.commandListener = function commandListener(executingCommand, id, options)
                 code = cNewProgress + options.progress + ');';
                 break;
         }
-        
+
         try {
             curId = tabs[0].id;
         }
@@ -55,7 +55,7 @@ window.commandListener = function commandListener(executingCommand, id, options)
             curId = window.tabId ? window.tabId : id;
         }
         window.tabId = curId;
-        
+
         chrome.tabs.executeScript(curId, {'code': scriptInjectPreCode + code + scriptInjectAfterCode}, function () {
             chrome.runtime.sendMessage({
                 method: 'updateInfo',
@@ -71,3 +71,31 @@ chrome.tabs.onUpdated.addListener((id) => {
     if (id == tabId)
         window.isExecutedContentScript = false;
 });
+
+setInterval(() => {
+    if (window.tabId) {
+        chrome.tabs.sendMessage(tabId, {method: "getIsPlaying"}, (response) => {
+               if (!response) {
+                   return;
+               }
+            isPlaying = JSON.parse(response.isPlaying);
+            setPlayPauseBtn(isPlaying);
+        });
+    }
+}, 500);
+
+function setPlayPauseBtn(isPlaying) {
+    if (isPlaying) {
+        setPauseIcon();
+    } else {
+        setPlayIcon();
+    }
+}
+
+function setPauseIcon() {
+    chrome.browserAction.setIcon({path: "../images/pause.png"});
+}
+
+function setPlayIcon() {
+    chrome.browserAction.setIcon({path: "../images/play.png"});
+}
